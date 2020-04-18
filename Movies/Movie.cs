@@ -14,6 +14,10 @@ namespace Movies
         /// Gets or sets the title of the movie
         /// </summary>
         public string Title { get; set; }
+        /// <summary>
+        /// gets or sets director name
+        /// </summary>
+        public string Director { get; set; }
                 
         /// <summary>
         /// Gets or sets the MPAA rating of the movie
