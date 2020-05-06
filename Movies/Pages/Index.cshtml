@@ -13,7 +13,7 @@
         <div id="filters">
 
             <h4>MPAA Rating</h4>
-            @foreach (String rating in MovieDatabase.MPAARating)
+            @foreach (String rating in MovieDatabase.MPAARatings)
             {
                 <label>
                     <input type="checkbox" name="MPAARatings" value="@rating" checked="@Model.MPAARating?.Contains(rating)" />

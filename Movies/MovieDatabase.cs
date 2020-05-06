@@ -39,7 +39,7 @@ namespace Movies
         /// <summary>
         /// Gets the possible MPAARatings
         /// </summary>
-        public static string[] MPAARating
+        public static string[] MPAARatings
         {
             get => new string[]
             {

@@ -17,19 +17,19 @@ namespace Movies.Pages
         /// <summary>
         /// The current search terms 
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public string SearchTerms { get; set; }
 
         /// <summary>
         /// The filtered MPAA Ratings
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public string[] MPAARating { get; set; }
 
         /// <summary>
         /// The filtered genres
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public string[] Genres { get; set; }
 
         /// <summary>
@@ -47,13 +47,36 @@ namespace Movies.Pages
         /// </summary>
         public void OnGet(double? IMDBMin, double? IMDBMax)
         {
-            // Nullable conversion workaround
-            this.IMDBMin = IMDBMin;
+
+            /*this.IMDBMin = IMDBMin;
             this.IMDBMax = IMDBMax;
             Movies = MovieDatabase.Search(SearchTerms);
             Movies = MovieDatabase.FilterByMPAARating(Movies, MPAARating);
             Movies = MovieDatabase.FilterByGenre(Movies, Genres);
-            Movies = MovieDatabase.FilterByIMDBRating(Movies, IMDBMin, IMDBMax);
+            Movies = MovieDatabase.FilterByIMDBRating(Movies, IMDBMin, IMDBMax);*/
+
+            Movies = MovieDatabase.All;
+            // Search for title
+            if(SearchTerms != null)
+            {
+                Movies = Movies.Where(movie => { return movie.Title != null && movie.Title.Contains(SearchTerms, StringComparison.CurrentCultureIgnoreCase); });
+            }
+            // Filter by mpaa rating
+            if(MPAARating != null && MPAARating.Length != 0)
+            {
+                Movies = Movies.Where(movie => movie.MPAARating != null && MPAARating.Contains(movie.MPAARating));
+            }
+            // Filter by Genre
+            if (Genres != null)
+            {
+                Movies = Movies.Where(movie => movie.MajorGenre != null && Genres.Contains(movie.MajorGenre));
+            }
+
+            // Filter by IMDB score
+            if(IMDBMax != null && IMDBMin == null || IMDBMin != null && IMDBMax == null || IMDBMax != null && IMDBMin != null)
+            {
+                Movies = Movies.Where(movie => movie.IMDBRating >= IMDBMin && movie.IMDBRating <= IMDBMax);
+            }
         }
     }
 }
